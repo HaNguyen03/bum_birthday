@@ -125,6 +125,17 @@ em {
   text-align: right;
 }
 
+.letter-next {
+  margin-top: 48px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.letter-next a {
+  display: inline-block;
+  line-height: 1.5;
+}
+
 .reasons-section {
   padding: 120px 7%;
   background: var(--light-rose);

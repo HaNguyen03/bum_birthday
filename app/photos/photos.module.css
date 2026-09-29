@@ -1,0 +1,29 @@
+.page {
+  min-height: 100svh;
+  padding: 32px max(20px, calc((100vw - 1100px) / 2)) 80px;
+  background: linear-gradient(150deg, #f8ece7, #efd6d4 65%, #fffaf5);
+}
+
+.back { color: var(--rose); font-size: 14px; }
+.header { text-align: center; margin: 65px auto 36px; max-width: 660px; }
+.header h1 { font: normal clamp(40px, 7vw, 72px)/1.1 Georgia, serif; margin: 20px 0; }
+.header > p:last-child { color: #685053; line-height: 1.7; }
+.upload { padding: 32px 20px; border: 1px dashed #a6425380; border-radius: 20px; background: #fffaf5b3; text-align: center; }
+.upload label { display: block; color: var(--rose); font: 26px Georgia, serif; margin-bottom: 24px; }
+.upload input { max-width: 100%; }
+.upload input::file-selector-button { padding: 12px 18px; background: var(--rose); color: white; border: 0; border-radius: 8px; cursor: pointer; margin-right: 12px; }
+.upload p { color: #685053; font-size: 13px; line-height: 1.6; }
+.status { min-height: 24px; text-align: center; color: var(--rose); }
+.empty { padding: 40px 0; text-align: center; font: italic 22px Georgia, serif; color: #685053; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 24px; }
+.card { padding: 14px; background: var(--paper); border-radius: 12px; box-shadow: 0 10px 30px #46232712; min-width: 0; }
+.preview { position: relative; aspect-ratio: 4 / 5; background: var(--cream); border-radius: 6px; overflow: hidden; }
+.preview img { object-fit: contain; }
+.name { overflow-wrap: anywhere; font-size: 14px; color: #685053; }
+.actions { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.actions a { padding: 12px 16px; border-radius: 8px; background: var(--rose); color: white; text-decoration: none; font-size: 14px; }
+.actions button { padding: 12px; background: transparent; border: 0; color: #685053; text-decoration: underline; cursor: pointer; }
+.page :focus-visible { outline: 3px solid var(--rose); outline-offset: 4px; }
+.upload input[type="password"] { padding: 12px; border: 1px solid #a6425380; border-radius: 8px; margin: 0 12px 12px 0; font: inherit; }
+.upload button { padding: 12px 18px; border: 0; border-radius: 8px; background: var(--rose); color: white; cursor: pointer; }
+.page :disabled { opacity: 0.6; cursor: wait; }

@@ -2,6 +2,7 @@
 
 import { useState, type CSSProperties } from "react";
 import { Dancing_Script } from "next/font/google";
+import Link from "next/link";
 
 const dancingScript = Dancing_Script({
   subsets: ["latin"],
@@ -194,6 +195,9 @@ export default function Home() {
           </p>
 
           <p className="signature">Bồ iu ♥</p>
+          <div className="letter-next">
+            <Link className="main-button" href="/photos">Our little photo album →</Link>
+          </div>
         </article>
       </section>
 
