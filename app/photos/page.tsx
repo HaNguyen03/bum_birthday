@@ -135,7 +135,6 @@ export default function PhotosPage() {
         <label htmlFor="photos">Choose your pictures ♥</label>
         <input id="photos" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple disabled={busy} onChange={addPhotos} aria-describedby="photo-help" />
         <p id="photo-help">JPG, PNG, WebP, or GIF · Up to 20 MB per photo</p>
-        <p>Photos are saved in our shared album. Open it on any device with the album password.</p>
       </section>
       </>}
 
