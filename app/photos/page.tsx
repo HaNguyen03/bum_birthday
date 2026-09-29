@@ -133,8 +133,7 @@ export default function PhotosPage() {
       </div>
       <section className={styles.upload} aria-label="Upload photos">
         <label htmlFor="photos">Choose your pictures ♥</label>
-        <input id="photos" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple disabled={busy} onChange={addPhotos} aria-describedby="photo-help" />
-        <p id="photo-help">JPG, PNG, WebP, or GIF · Up to 20 MB per photo</p>
+        <input id="photos" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple disabled={busy} onChange={addPhotos} />
       </section>
       </>}
 
