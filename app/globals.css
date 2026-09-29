@@ -630,26 +630,26 @@ footer {
   transition: transform 0.8s cubic-bezier(.22,1,.36,1), opacity .4s ease;
 }
 
-.cake-half::before {
+.cake-edible::before {
   content: "";
   position: absolute;
-  top: 48px;
-  width: 136px;
-  height: 28px;
-  background: radial-gradient(circle at 18px 0, #fff7f1 17px, transparent 18px) 0 0 / 48px 30px repeat-x;
+  inset: -5px 0 auto;
+  z-index: 1;
+  height: 88px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 250 88' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='icing' x2='0' y2='1'%3E%3Cstop stop-color='%23fffdf9'/%3E%3Cstop offset='1' stop-color='%23ffe3e8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0 28Q0 5 25 5H225Q250 5 250 28V44Q250 55 239 55Q228 55 228 44V40Q218 34 210 40V62Q210 75 198 75Q186 75 186 62V47Q178 39 168 45V52Q168 62 158 62Q148 62 148 52V42Q137 35 127 43V70Q127 84 114 84Q101 84 101 70V48Q91 40 81 47V55Q81 66 70 66Q59 66 59 55V43Q49 36 40 43V61Q40 73 28 73Q16 73 16 61V43Q0 55 0 39Z' fill='url(%23icing)'/%3E%3Cellipse cx='125' cy='19' rx='111' ry='14' fill='%23fffaf5'/%3E%3Cpath d='M20 19Q125-4 230 19' fill='none' stroke='%23ffffff' stroke-width='4' stroke-linecap='round'/%3E%3Cg stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M29 26l5 2M68 15l4 3M109 28l5-2M151 14l4 3M194 27l5-2M224 21l3 3' stroke='%23d97798'/%3E%3Cpath d='M48 17l4-2M87 29l4 2M132 20l4-2M174 23l4 2M211 13l4 2' stroke='%23e9bb70'/%3E%3C/g%3E%3C/svg%3E") center top / 100% 100% no-repeat;
+  filter: drop-shadow(0 3px 1px #a642531a);
+  pointer-events: none;
 }
 
 .cake-left {
   left: 0;
   border-radius: 24px 0 0 18px;
 }
-.cake-left::before { left: -10px; }
 
 .cake-right {
   right: 0;
   border-radius: 0 24px 18px 0;
 }
-.cake-right::before { right: -10px; }
 
 .cake-plate {
   position: absolute;
@@ -678,10 +678,22 @@ footer {
 
 .cake-candle {
   position: relative;
-  width: 14px;
+  width: 52px;
+  height: 96px;
+  background: linear-gradient(to right, #fffaf5, #edc5ce) center bottom / 7px 30px no-repeat;
+}
+
+.number-candle {
+  display: block;
+  width: 100%;
   height: 72px;
-  border-radius: 8px 8px 3px 3px;
-  background: repeating-linear-gradient(-45deg, #fffaf5 0 8px, #b95466 8px 16px);
+  overflow: visible;
+  fill: none;
+  stroke: #f9bdcf;
+  stroke-width: 11px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(2px 2px 0 #b95466);
 }
 
 .cake-candle::before {

@@ -74,13 +74,22 @@ export default function Home() {
           disabled={isOpening}
           aria-label="Blow out the birthday candles and open the love letter"
         >
-          <span className="envelope-kicker">Make a birthday wish</span>
+          <span className="envelope-kicker">Make a wish</span>
 
           <span className="birthday-cake" aria-hidden="true">
             <span className="cake-candles">
-              <span className="cake-candle"><i className="flame" /></span>
-              <span className="cake-candle"><i className="flame" /></span>
-              <span className="cake-candle"><i className="flame" /></span>
+              <span className="cake-candle">
+                <svg className="number-candle" viewBox="0 0 52 72">
+                  <path d="M8 17C8 1 44 1 44 18C44 32 8 37 8 62H44" />
+                </svg>
+                <i className="flame" />
+              </span>
+              <span className="cake-candle">
+                <svg className="number-candle" viewBox="0 0 52 72">
+                  <path d="M8 13C20 1 44 5 44 20C44 30 35 34 25 34C36 34 44 39 44 49C44 66 20 70 8 58" />
+                </svg>
+                <i className="flame" />
+              </span>
             </span>
 
             <span className="cake-body">
