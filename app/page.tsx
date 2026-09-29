@@ -11,21 +11,29 @@ const dancingScript = Dancing_Script({
 
 const partyColors = ["#d77891", "#efb8bd", "#e6bd68", "#b4a4cf", "#91bdb0"];
 
+// Stable scatter values keep server and browser rendering in sync.
+function heartScatter(index: number, channel: number) {
+  let value = Math.imul(index + 1, 374761393) + Math.imul(channel + 1, 668265263);
+  value = Math.imul(value ^ (value >>> 13), 1274126177);
+  return ((value ^ (value >>> 16)) >>> 0) / 4294967296;
+}
+
 function FloatingHearts({ soft = false }: { soft?: boolean }) {
   return (
     <div className={`floating-hearts${soft ? " floating-hearts-soft" : ""}`} aria-hidden="true">
-      {Array.from({ length: soft ? 72 : 44 }, (_, index) => (
+      {Array.from({ length: soft ? 72 : 90 }, (_, index) => (
         <span
           key={index}
           style={{
             left: soft
               ? `${index % 2 === 0 ? 1 + ((index * 7) % 17) : 81 + ((index * 7) % 17)}%`
-              : `${2 + ((index * 43) % 94)}%`,
-            top: `${3 + ((index * 29) % 92)}%`,
-            fontSize: `${soft ? [12, 22, 46, 16, 76, 30, 18, 58, 24, 100, 36, 14][index % 12] : 18 + ((index * 7) % 30)}px`,
-            animationDelay: `-${index * 1.3}s`,
-            animationDuration: `${(soft ? 10 : 6) + (index % 5)}s`,
-            "--heart-drift": `${index % 2 === 0 ? 14 : -14}px`,
+              : `${1 + heartScatter(index, 0) * 96}%`,
+            top: `${soft ? 3 + ((index * 29) % 92) : 2 + heartScatter(index, 1) * 94}%`,
+            fontSize: `${soft ? [12, 22, 46, 16, 76, 30, 18, 58, 24, 100, 36, 14][index % 12] : 12 + heartScatter(index, 2) * 42}px`,
+            opacity: soft ? undefined : 0.12 + heartScatter(index, 3) * 0.2,
+            animationDelay: `-${heartScatter(index, 4) * 20}s`,
+            animationDuration: `${(soft ? 10 : 6) + heartScatter(index, 5) * 7}s`,
+            "--heart-drift": `${heartScatter(index, 6) * 40 - 20}px`,
           } as CSSProperties}
         >
           {soft ? (
