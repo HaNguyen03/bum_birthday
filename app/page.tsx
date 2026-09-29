@@ -107,32 +107,90 @@ export default function Home() {
     >
       <section className="letter-section" id="letter">
         <article className={`letter ${dancingScript.className}`}>
-          <p className="greeting">Dear Bum,</p>
+          <p className="greeting">Dear Bum iu ♥</p>
 
-          <h1>You are my favorite part of every day.</h1>
+          <h1>Happy 23rd Birthday!</h1>
 
           <p>
-            I know that we can only see each other through a screen but I will always
-            include you in my daily life. I will always tell you about the little things that make me happy,
-            and I will always ask you about the little things that make you happy.
+            I wish nothing but the best for you,
           </p>
 
           <p>
-            Life became warmer and more colorful when you entered it.
-            You make me laugh when I need it most, and you make me feel calm whenever
-            I feel overwhelmed.
-          </p>
-
-          <p>
-            Thank you for being my safe place, my best friend and the person
-            I always want to talk to. 
+            I know this week you have a lot of work and school stuff to deal 
+            with, but just for today, how about taking a little break 
+            and spoiling yourself a bit? Just relax and don&apos;t 
+            care about anything for one day. Go to the beach, get even more 
+            tan, and just enjoy your birthday properly =))))
           </p>
 
           <p> 
-            I am only one call away. I will always be here for you, no matter what.
+            I really wish I could be there with you today, it makes me a 
+            little sad that I can&apos;t be there for your birthday this year. 
+            But then I remind myself that I only have to be away from 
+            you for two birthdays. So… one down, only one more to go.
           </p>
 
-          <p className="signature">Hà ♥</p>
+          <p>
+            I know right now we can only see each other through a screen, 
+            but I never want the distance to make you feel like I&apos;m not 
+            part of your life. I still want to know everything. The random 
+            things that happened during your day, what you ate, what made 
+            you laugh, what stressed you out, what made you tired, what made 
+            you proud of yourself. Even the smallest things matter to me because 
+            they&apos;re part of your life, and I want to be part of all of it.
+          </p>
+
+          <p>
+            I&apos;m so proud of you too. Not just because of what you achieve, 
+            but because I see how hard you try. I see how tired you get, 
+            how much pressure you put on yourself, and how you still keep 
+            going. Sometimes I really wish I could teleport to you, hold you, 
+            and let you rest for a while.
+          </p>
+
+          <p>
+            I know things between us won&apos;t always be easy. There will be 
+            distance, stress, stupid arguments, bad days, and times when 
+            both of us are exhausted. But I want to grow with you. I want to 
+            figure things out with you. I want to make mistakes, fix them, 
+            learn each other better, and keep building us.
+          </p>
+
+          <p>
+            Whenever you&apos;re tired, overwhelmed, lonely, happy, excited, call me. ❤️ 
+            I can&apos;t promise I&apos;ll always know how to fix everything, but I can 
+            promise you won&apos;t have to sit with it alone.
+          </p>
+
+          <p>
+            I hope 23 is kind to you. I hope you get closer to everything you want. 
+            I hope you have moments that make you feel proud of yourself, moments 
+            that make you laugh, and moments where you stop and realize how loved 
+            you really are.
+          </p>
+
+          <p>
+            Even when I can&apos;t be there physically, just know that I&apos;m always praying 
+            for the best for you. I&apos;ll always be here cheering for you, listening to 
+            you, supporting you, and loving you from wherever I am.❤️
+          </p>
+
+          <p>
+            And no matter how old you think you are, you&apos;ll always be my 
+            little princess.❤️
+          </p>
+
+          <p>
+            Happy birthday, Bum. I love you so, so much.❤️
+          </p>
+
+          <p> 
+            p.s. Your present might arrive a little later than expected… I&apos;m sorry =)))) 
+            And since I couldn&apos;t give you a handwritten letter this year, I guess this 
+            will do for now. You&apos;ll get the handwritten one when you come back. ❤️
+          </p>
+
+          <p className="signature">Bồ iu ♥</p>
         </article>
       </section>
 
