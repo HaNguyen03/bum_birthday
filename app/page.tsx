@@ -29,7 +29,7 @@ export default function Home() {
     window.setTimeout(() => {
       setShowWebsite(true);
       window.scrollTo({ top: 0 });
-    }, 1550);
+    }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 100 : 2800);
   }
 
   return (
@@ -70,6 +70,7 @@ export default function Home() {
         <button
           className="cake-button"
           onClick={openLetter}
+          disabled={isOpening}
           aria-label="Blow out the birthday candles and open the love letter"
         >
           <span className="envelope-kicker">Make a birthday wish</span>
@@ -82,8 +83,10 @@ export default function Home() {
             </span>
 
             <span className="cake-body">
-              <span className="cake-half cake-left" />
-              <span className="cake-half cake-right" />
+              <span className="cake-edible">
+                <span className="cake-half cake-left" />
+                <span className="cake-half cake-right" />
+              </span>
               <span className="cake-plate" />
             </span>
           </span>

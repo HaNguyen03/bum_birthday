@@ -732,21 +732,49 @@ footer {
   100% { opacity: 0; transform: translate(-25%, -58px) scale(2.1); }
 }
 
-.cake-stage-2 .cake-left {
-  transform: translateX(-145px) rotate(-8deg);
+.cake-edible {
+  position: absolute;
+  inset: 0;
 }
 
-.cake-stage-2 .cake-right {
-  transform: translateX(145px) rotate(8deg);
+.opening-screen.is-opening {
+  transition-delay: 2.3s;
 }
 
-.cake-stage-2 .cake-candles,
-.cake-stage-2 .cake-plate {
+.cake-stage-2 .cake-edible {
+  animation: eat-cake 2.2s steps(1, end) forwards;
+}
+
+.cake-stage-2 .cake-candles {
   opacity: 0;
 }
 
 .cake-stage-2 .birthday-cake {
-  transform: scale(1.04);
+  transform: none;
+}
+
+/* Overlapping circular cutouts leave scalloped bite marks in the frosting. */
+@keyframes eat-cake {
+  0% { mask-image: none; }
+  15% {
+    mask-image: radial-gradient(circle at 95% 5%, transparent 0 24%, #000 24.5%);
+  }
+  35% {
+    mask-image: radial-gradient(circle at 95% 5%, transparent 0 24%, #000 24.5%),
+      radial-gradient(circle at 68% 0%, transparent 0 28%, #000 28.5%);
+    mask-composite: intersect;
+  }
+  55% {
+    mask-image: radial-gradient(circle at 85% 30%, transparent 0 48%, #000 48.5%),
+      radial-gradient(circle at 32% 0%, transparent 0 28%, #000 28.5%);
+    mask-composite: intersect;
+  }
+  75% {
+    mask-image: radial-gradient(circle at 80% 35%, transparent 0 65%, #000 65.5%),
+      radial-gradient(circle at 10% 0%, transparent 0 42%, #000 42.5%);
+    mask-composite: intersect;
+  }
+  100% { opacity: 0; }
 }
 
 .cake-stage-1 .opening-hint {
@@ -771,6 +799,9 @@ footer {
 
   .cake-plate { width: 260px; }
   .cake-candles { bottom: 155px; gap: 24px; }
-  .cake-stage-2 .cake-left { transform: translateX(-105px) rotate(-8deg); }
-  .cake-stage-2 .cake-right { transform: translateX(105px) rotate(8deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opening-screen.is-opening { transition-delay: 0s; }
+  .cake-stage-2 .cake-edible { animation: none; opacity: 0; }
 }
