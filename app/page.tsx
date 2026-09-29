@@ -94,9 +94,9 @@ export default function Home() {
 
           <span className="opening-hint">
             {cakeStage === 0
-              ? "Tap the cake"
+              ? "Blow the candles"
               : cakeStage === 1
-                ? "One more"
+                ? "Eat the cake"
                 : "Opening your letter..."}
           </span>
         </button>
