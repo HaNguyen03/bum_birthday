@@ -11,10 +11,39 @@ const dancingScript = Dancing_Script({
 
 const partyColors = ["#d77891", "#efb8bd", "#e6bd68", "#b4a4cf", "#91bdb0"];
 
+function FloatingHearts({ soft = false }: { soft?: boolean }) {
+  return (
+    <div className={`floating-hearts${soft ? " floating-hearts-soft" : ""}`} aria-hidden="true">
+      {Array.from({ length: soft ? 72 : 44 }, (_, index) => (
+        <span
+          key={index}
+          style={{
+            left: soft
+              ? `${index % 2 === 0 ? 1 + ((index * 7) % 17) : 81 + ((index * 7) % 17)}%`
+              : `${2 + ((index * 43) % 94)}%`,
+            top: `${3 + ((index * 29) % 92)}%`,
+            fontSize: `${soft ? [12, 22, 46, 16, 76, 30, 18, 58, 24, 100, 36, 14][index % 12] : 18 + ((index * 7) % 30)}px`,
+            animationDelay: `-${index * 1.3}s`,
+            animationDuration: `${(soft ? 10 : 6) + (index % 5)}s`,
+            "--heart-drift": `${index % 2 === 0 ? 14 : -14}px`,
+          } as CSSProperties}
+        >
+          {soft ? (
+            <svg viewBox="0 0 40 40" focusable="false">
+              <path d="M20 34S4 24 4 13C4 3 16 2 20 10C24 2 36 3 36 13C36 24 20 34 20 34Z" />
+            </svg>
+          ) : "♥"}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export default function Home() {
   const [isOpening, setIsOpening] = useState(false);
   const [showWebsite, setShowWebsite] = useState(false);
   const [cakeStage, setCakeStage] = useState(0);
+  const [balloonColors, setBalloonColors] = useState<string[]>([]);
 
   function openLetter() {
     if (isOpening) return;
@@ -24,6 +53,9 @@ export default function Home() {
       return;
     }
 
+    setBalloonColors(Array.from({ length: 48 }, () =>
+      `hsl(${Math.floor(Math.random() * 360)} ${65 + Math.floor(Math.random() * 20)}% ${65 + Math.floor(Math.random() * 15)}%)`
+    ));
     setCakeStage(2);
     setIsOpening(true);
 
@@ -37,15 +69,14 @@ export default function Home() {
   <>
     {isOpening && (
       <div className="celebration" aria-hidden="true">
-        {Array.from({ length: 10 }, (_, index) => (
+        {balloonColors.map((color, index) => (
           <span
             key={`balloon-${index}`}
             className="party-balloon"
             style={{
-              left: `${5 + index * 10}%`,
-              "--party-color": partyColors[index % partyColors.length],
-              "--drift": `${index % 2 === 0 ? -35 : 35}px`,
-              animationDelay: `${(index % 4) * 0.16}s`,
+              left: `${2 + ((index * 37) % 94)}%`,
+              "--party-color": color,
+              animationDelay: `${(index % 6) * 0.12}s`,
             } as CSSProperties}
           />
         ))}
@@ -54,9 +85,10 @@ export default function Home() {
             key={`confetti-${index}`}
             className="party-confetti"
             style={{
-              left: `${(index * 37) % 100}%`,
+              left: index % 2 === 0 ? "0%" : "100%",
               "--party-color": partyColors[index % partyColors.length],
-              "--drift": `${((index * 29) % 180) - 90}px`,
+              "--burst-x": `${(index % 2 === 0 ? 1 : -1) * (18 + ((index * 13) % 45))}vw`,
+              "--burst-y": `-${35 + ((index * 17) % 40)}vh`,
               animationDelay: `${(index % 10) * 0.08}s`,
               animationDuration: `${2.4 + (index % 5) * 0.25}s`,
             } as CSSProperties}
@@ -68,6 +100,7 @@ export default function Home() {
       <section
         className={`opening-screen ${isOpening ? "is-opening" : ""} cake-stage-${cakeStage}`}
       >
+        <FloatingHearts />
         <button
           className="cake-button"
           onClick={openLetter}
@@ -119,6 +152,7 @@ export default function Home() {
       aria-hidden={!showWebsite}
     >
       <section className="letter-section" id="letter">
+        <FloatingHearts soft />
         <article className={`letter ${dancingScript.className}`}>
           <p className="greeting">Dear Bum iu ♥</p>
 
@@ -209,7 +243,6 @@ export default function Home() {
           </div>
         </article>
       </section>
-
     </main>
   </>
 );

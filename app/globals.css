@@ -81,7 +81,85 @@ em {
 }
 
 .letter-section {
+  position: relative;
+  isolation: isolate;
   padding: 120px 24px;
+  background: radial-gradient(ellipse at 0% 30%, #f4d8df99, transparent 55%),
+    radial-gradient(ellipse at 100% 75%, #efd6e399, transparent 55%), var(--cream);
+}
+
+.floating-hearts {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.floating-hearts span {
+  position: absolute;
+  color: #b84e70;
+  opacity: 0.25;
+  font-family: Georgia, serif;
+  line-height: 1;
+  animation: heart-drift 8s ease-in-out infinite alternate;
+}
+
+.floating-hearts-soft span {
+  color: #d786a0;
+  opacity: 0.32;
+  animation-name: letter-heart-drift;
+}
+
+.floating-hearts-soft svg {
+  display: block;
+  width: 1em;
+  height: 1em;
+  overflow: visible;
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  filter: drop-shadow(0 4px 5px #bc6b8b26);
+}
+
+.floating-hearts-soft span:nth-child(3n) svg {
+  fill: none;
+  stroke-width: 1.8;
+}
+
+.floating-hearts-soft span:nth-child(4n) {
+  color: #b69bc4;
+  opacity: 0.25;
+}
+
+.floating-hearts-soft span:nth-child(5n) {
+  color: #edb0bd;
+  opacity: 0.4;
+  filter: blur(1px);
+}
+
+@keyframes letter-heart-drift {
+  from { transform: translate(-4px, 12px) rotate(-10deg) scale(0.94); }
+  to { transform: translate(var(--heart-drift), -20px) rotate(9deg) scale(1.04); }
+}
+
+.letter-section > .letter,
+.opening-screen > .cake-button {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes heart-drift {
+  from { transform: translate(-6px, 20px) rotate(-12deg); }
+  to { transform: translate(var(--heart-drift), -35px) rotate(12deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-hearts span,
+  .opening-screen::before,
+  .opening-screen::after {
+    animation: none !important;
+  }
 }
 
 .letter {
@@ -558,11 +636,12 @@ footer {
 
 .party-confetti {
   position: absolute;
-  top: -20px;
+  bottom: 12vh;
   width: 8px;
   height: 14px;
   background: var(--party-color);
-  animation: confetti-fall 3s ease-in forwards;
+  opacity: 0;
+  animation: confetti-burst 3s linear forwards;
 }
 
 .party-confetti:nth-child(3n) {
@@ -570,13 +649,24 @@ footer {
 }
 
 @keyframes balloon-rise {
-  to { transform: translate(var(--drift), calc(-100vh - 380px)) rotate(12deg); }
+  to { transform: translateY(calc(-100vh - 380px)); }
 }
 
-@keyframes confetti-fall {
-  0% { opacity: 0; }
-  10%, 75% { opacity: 1; }
-  100% { opacity: 0; transform: translate(var(--drift), calc(100vh + 40px)) rotate(720deg); }
+@keyframes confetti-burst {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg);
+    animation-timing-function: cubic-bezier(0.15, 0.7, 0.3, 1);
+  }
+  40% {
+    opacity: 1;
+    transform: translate(var(--burst-x), var(--burst-y)) rotate(360deg);
+    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.65);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--burst-x) * 1.25), 20vh) rotate(900deg);
+  }
 }
 
 @keyframes celebration-finish {
