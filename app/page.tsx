@@ -240,15 +240,15 @@ export default function Home() {
           </p>
 
           <p>
-            I hope 23 is kind to you. I hope you get closer to everything you want. 
-            I hope you have moments that make you feel proud of yourself, moments 
-            that make you laugh, and moments where you stop and realize how loved 
-            you really are.
+            I hope 23 is kind to you. I hope you get closer to everything you want. I 
+            hope that you can relax and enjoy the little things in life, I hope you can
+            be bring back the little child in you for the next year, learn to enjoy life
+            the way it is, and you don&apos;t have to carry everything on your own.
           </p>
 
           <p>
-            Even when I can&apos;t be there physically, just know that I&apos;m always praying 
-            for the best for you. I&apos;ll always be here cheering for you, listening to 
+            Even when I can&apos;t be there right now, just know that I&apos;m always praying 
+            the best for you. I&apos;ll always be here cheering for you, listening to 
             you, supporting you, and loving you from wherever I am.❤️
           </p>
 
@@ -258,7 +258,7 @@ export default function Home() {
           </p>
 
           <p>
-            Happy birthday, Bum. I love you so, so much.❤️
+            Happy birthday, Bum. I love you and I miss you so so so much ❤️
           </p>
 
           <p> 
