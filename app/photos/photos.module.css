@@ -1,29 +1,266 @@
 .page {
+  --album-ink: #432a31;
+  --album-rose: #984c5e;
+  --album-sage: #708477;
+  --album-paper: #fffaf4;
+
   min-height: 100svh;
   padding: 32px max(20px, calc((100vw - 1100px) / 2)) 80px;
-  background: linear-gradient(150deg, #f8ece7, #efd6d4 65%, #fffaf5);
+  color: var(--album-ink);
+  background:
+    radial-gradient(ellipse at 12% 16%, #f1d5d5b8, transparent 30%),
+    radial-gradient(ellipse at 91% 34%, #dce5d8a6, transparent 28%),
+    linear-gradient(150deg, #faf1e9, #f0dcda 62%, #fffaf4);
 }
 
-.back { color: var(--rose); font-size: 14px; }
-.header { text-align: center; margin: 65px auto 36px; max-width: 660px; }
-.header h1 { font: normal clamp(40px, 7vw, 72px)/1.1 Georgia, serif; margin: 20px 0; }
-.header > p:last-child { color: #685053; line-height: 1.7; }
-.upload { padding: 32px 20px; border: 1px dashed #a6425380; border-radius: 20px; background: #fffaf5b3; text-align: center; }
-.upload label { display: block; color: var(--rose); font: 26px Georgia, serif; margin-bottom: 24px; }
-.upload input { max-width: 100%; }
-.upload input::file-selector-button { padding: 12px 18px; background: var(--rose); color: white; border: 0; border-radius: 8px; cursor: pointer; margin-right: 12px; }
-.upload p { color: #685053; font-size: 13px; line-height: 1.6; }
-.status { min-height: 24px; text-align: center; color: var(--rose); }
-.empty { padding: 40px 0; text-align: center; font: italic 22px Georgia, serif; color: #685053; }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 24px; }
-.card { padding: 14px; background: var(--paper); border-radius: 12px; box-shadow: 0 10px 30px #46232712; min-width: 0; }
-.preview { position: relative; aspect-ratio: 4 / 5; background: var(--cream); border-radius: 6px; overflow: hidden; }
-.preview img { object-fit: contain; }
-.name { overflow-wrap: anywhere; font-size: 14px; color: #685053; }
-.actions { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
-.actions a { padding: 12px 16px; border-radius: 8px; background: var(--rose); color: white; text-decoration: none; font-size: 14px; }
-.actions button { padding: 12px; background: transparent; border: 0; color: #685053; text-decoration: underline; cursor: pointer; }
-.page :focus-visible { outline: 3px solid var(--rose); outline-offset: 4px; }
-.upload input[type="password"] { padding: 12px; border: 1px solid #a6425380; border-radius: 8px; margin: 0 12px 12px 0; font: inherit; }
-.upload button { padding: 12px 18px; border: 0; border-radius: 8px; background: var(--rose); color: white; cursor: pointer; }
-.page :disabled { opacity: 0.6; cursor: wait; }
+.back {
+  color: var(--album-rose);
+  font-size: 14px;
+  text-decoration-color: #984c5e66;
+  text-underline-offset: 4px;
+}
+
+.header {
+  max-width: 660px;
+  margin: 65px auto 38px;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 20px 0 18px;
+  color: var(--album-ink);
+  font: normal clamp(40px, 7vw, 72px)/1.04 Georgia, serif;
+}
+
+.header > p:last-child {
+  max-width: 480px;
+  margin: 0 auto;
+  color: #685053;
+  font-family: Georgia, serif;
+  line-height: 1.8;
+}
+
+.header::after {
+  display: block;
+  width: 72px;
+  height: 1px;
+  margin: 28px auto 0;
+  background: linear-gradient(90deg, transparent, var(--album-sage), transparent);
+  content: "";
+}
+
+.upload {
+  max-width: 760px;
+  margin: 0 auto 18px;
+  padding: 34px 22px;
+  border: 1px solid #a96b7766;
+  outline: 1px solid #ffffff99;
+  outline-offset: -7px;
+  background: #fffaf4b8;
+  text-align: center;
+}
+
+.upload label {
+  display: block;
+  margin-bottom: 22px;
+  color: var(--album-rose);
+  font: italic 27px Georgia, serif;
+}
+
+.upload input {
+  max-width: 100%;
+}
+
+.upload input::file-selector-button {
+  margin-right: 12px;
+  padding: 12px 18px;
+  border: 1px solid var(--album-rose);
+  background: var(--album-rose);
+  color: white;
+  cursor: pointer;
+  font: inherit;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.upload input::file-selector-button:hover {
+  background: transparent;
+  color: var(--album-rose);
+}
+
+.upload p {
+  color: #685053;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.status {
+  min-height: 24px;
+  margin: 10px 0 22px;
+  color: var(--album-rose);
+  text-align: center;
+}
+
+.empty {
+  padding: 40px 0;
+  color: #685053;
+  font: italic 22px Georgia, serif;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 28px;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px 12px 16px;
+  border: 1px solid #9b73722b;
+  background: var(--album-paper);
+  box-shadow: 0 12px 34px #46232714;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 17px 38px #46232720;
+}
+
+.preview {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 1px solid #70847730;
+  background: linear-gradient(135deg, #f6eee5, #e8e1d7);
+}
+
+.preview img {
+  object-fit: contain;
+}
+
+.name {
+  overflow-wrap: anywhere;
+  margin: 14px 2px 12px;
+  color: #685053;
+  font: italic 16px/1.45 Georgia, serif;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.actions a {
+  padding: 10px 14px;
+  background: var(--album-rose);
+  color: white;
+  font-size: 13px;
+  text-decoration: none;
+  transition: background-color 160ms ease;
+}
+
+.actions a:hover,
+.upload button:hover,
+.page > button:hover {
+  background: #743c4b;
+}
+
+.actions button {
+  padding: 10px 8px;
+  border: 0;
+  background: transparent;
+  color: #685053;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: underline;
+  text-decoration-color: #68505366;
+  text-underline-offset: 3px;
+}
+
+.page > .actions {
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.page > .actions button {
+  padding: 10px 15px;
+  border: 1px solid #984c5e70;
+  color: var(--album-rose);
+  text-decoration: none;
+}
+
+.page > .actions button:hover {
+  background: #fffaf480;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--album-sage);
+  outline-offset: 4px;
+}
+
+.upload input[type="password"] {
+  margin: 0 12px 12px 0;
+  padding: 12px;
+  border: 1px solid #a96b7780;
+  background: #fffdf9;
+  color: var(--album-ink);
+  font: inherit;
+}
+
+.upload button,
+.page > button {
+  padding: 12px 18px;
+  border: 0;
+  background: var(--album-rose);
+  color: white;
+  cursor: pointer;
+  font: inherit;
+  transition: background-color 160ms ease;
+}
+
+.page > button {
+  display: block;
+  margin: 32px auto 0;
+}
+
+.page :disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .header {
+    margin-top: 48px;
+  }
+
+  .upload {
+    padding: 30px 14px;
+  }
+
+  .upload input[type="password"] {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .grid {
+    gap: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .upload input::file-selector-button,
+  .actions a,
+  .upload button,
+  .page > button {
+    transition: none;
+  }
+}
