@@ -18,31 +18,53 @@ function heartScatter(index: number, channel: number) {
   return ((value ^ (value >>> 16)) >>> 0) / 4294967296;
 }
 
+function heartSpread(index: number, base: number) {
+  let position = 0;
+  let fraction = 1 / base;
+  let remaining = index + 1;
+
+  while (remaining > 0) {
+    position += (remaining % base) * fraction;
+    remaining = Math.floor(remaining / base);
+    fraction /= base;
+  }
+
+  return position;
+}
+
 function FloatingHearts({ soft = false }: { soft?: boolean }) {
+  const count = soft ? 72 : 200;
+  const sideSize = Math.ceil(count / 2);
+
   return (
     <div className={`floating-hearts${soft ? " floating-hearts-soft" : ""}`} aria-hidden="true">
-      {Array.from({ length: soft ? 72 : 90 }, (_, index) => (
-        <span
-          key={index}
-          style={{
-            left: soft
-              ? `${index % 2 === 0 ? 1 + ((index * 7) % 17) : 81 + ((index * 7) % 17)}%`
-              : `${1 + heartScatter(index, 0) * 96}%`,
-            top: `${soft ? 3 + ((index * 29) % 92) : 2 + heartScatter(index, 1) * 94}%`,
-            fontSize: `${soft ? [12, 22, 46, 16, 76, 30, 18, 58, 24, 100, 36, 14][index % 12] : 12 + heartScatter(index, 2) * 42}px`,
-            opacity: soft ? undefined : 0.12 + heartScatter(index, 3) * 0.2,
-            animationDelay: `-${heartScatter(index, 4) * 20}s`,
-            animationDuration: `${(soft ? 10 : 6) + heartScatter(index, 5) * 7}s`,
-            "--heart-drift": `${heartScatter(index, 6) * 40 - 20}px`,
-          } as CSSProperties}
-        >
-          {soft ? (
-            <svg viewBox="0 0 40 40" focusable="false">
-              <path d="M20 34S4 24 4 13C4 3 16 2 20 10C24 2 36 3 36 13C36 24 20 34 20 34Z" />
-            </svg>
-          ) : "♥"}
-        </span>
-      ))}
+      {Array.from({ length: count }, (_, index) => {
+        const side = index % 2;
+        const spreadIndex = Math.floor(index / 2) + side * sideSize;
+
+        return (
+          <span
+            key={index}
+            style={{
+              left: soft
+                ? `${index % 2 === 0 ? 1 + ((index * 7) % 17) : 81 + ((index * 7) % 17)}%`
+                : `${(side === 0 ? 1 : 50) + heartSpread(spreadIndex, 2) * 49}%`,
+              top: `${soft ? 3 + ((index * 29) % 92) : 2 + heartSpread(spreadIndex, 3) * 94}%`,
+              fontSize: `${soft ? [12, 22, 46, 16, 76, 30, 18, 58, 24, 100, 36, 14][index % 12] : 12 + heartScatter(index, 2) * 42}px`,
+              opacity: soft ? undefined : 0.12 + heartScatter(index, 3) * 0.2,
+              animationDelay: `-${heartScatter(index, 4) * 20}s`,
+              animationDuration: `${(soft ? 10 : 6) + heartScatter(index, 5) * 7}s`,
+              "--heart-drift": `${heartScatter(index, 6) * 40 - 20}px`,
+            } as CSSProperties}
+          >
+            {soft ? (
+              <svg viewBox="0 0 40 40" focusable="false">
+                <path d="M20 34S4 24 4 13C4 3 16 2 20 10C24 2 36 3 36 13C36 24 20 34 20 34Z" />
+              </svg>
+            ) : "♥"}
+          </span>
+        );
+      })}
     </div>
   );
 }
