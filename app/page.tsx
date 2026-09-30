@@ -146,8 +146,8 @@ export default function Home() {
             {cakeStage === 0
               ? "Blow the candles"
               : cakeStage === 1
-                ? "Eat the cake"
-                : "Opening your letter..."}
+                ? "I LOVE YOU SO SO MUCH ♥"
+                : "HAPPY BIRTHDAY ♥"}
           </span>
         </button>
       </section>
