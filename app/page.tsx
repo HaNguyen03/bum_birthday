@@ -33,7 +33,7 @@ function heartSpread(index: number, base: number) {
 }
 
 function FloatingHearts({ soft = false }: { soft?: boolean }) {
-  const count = soft ? 72 : 200;
+  const count = soft ? 72 : 300;
   const sideSize = Math.ceil(count / 2);
 
   return (
