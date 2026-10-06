@@ -197,7 +197,7 @@ export default function Home() {
             with, but just for today, how about taking a little break 
             and spoiling yourself a bit? Just relax and don&apos;t 
             care about anything for one day. Go to the beach, get even more 
-            tan, and just enjoy your birthday properly =))))
+            tan, and just enjoy your birthday properly. ❤️
           </p>
 
           <p> 
