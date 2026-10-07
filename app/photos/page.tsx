@@ -4,12 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { upload } from "@vercel/blob/client";
+import { IMAGE_MAX_SIZE_BYTES, isAlbumMediaType, MEDIA_EXTENSION_BY_TYPE, VIDEO_MAX_SIZE_BYTES } from "@/lib/album-media";
 import styles from "./photos.module.css";
 
-type Photo = { id: string; name: string; url: string };
+type AlbumMemory = { id: string; name: string; url: string; contentType: string };
 
 export default function PhotosPage() {
-  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [memories, setMemories] = useState<AlbumMemory[]>([]);
   const [message, setMessage] = useState("");
   const [password, setPassword] = useState("");
   const [locked, setLocked] = useState(true);
@@ -19,7 +20,7 @@ export default function PhotosPage() {
   async function readResponse(response: Response) {
     const data = await response.json();
     if (!response.ok) {
-      if (response.status === 401) { setLocked(true); setPhotos([]); }
+      if (response.status === 401) { setLocked(true); setMemories([]); }
       throw new Error(data.error || "Something went wrong. Please try again.");
     }
     return data;
@@ -27,7 +28,7 @@ export default function PhotosPage() {
 
   async function loadPhotos(nextCursor?: string) {
     const data = await readResponse(await fetch(`/api/photos${nextCursor ? `?cursor=${encodeURIComponent(nextCursor)}` : ""}`, { cache: "no-store" }));
-    setPhotos((current) => nextCursor ? [...current, ...data.photos] : data.photos);
+    setMemories((current) => nextCursor ? [...current, ...data.photos] : data.photos);
     setCursor(data.cursor);
     setLocked(false);
   }
@@ -39,7 +40,7 @@ export default function PhotosPage() {
         const data = await response.json();
         if (!active) return;
         if (response.ok) {
-          setPhotos(data.photos); setCursor(data.cursor); setLocked(false);
+          setMemories(data.photos); setCursor(data.cursor); setLocked(false);
         } else if (response.status !== 401) setMessage(data.error);
       })
       .catch(() => { if (active) setMessage("Could not load the album. Please try again."); })
@@ -59,39 +60,40 @@ export default function PhotosPage() {
     finally { setBusy(false); }
   }
 
-  async function addPhotos(event: ChangeEvent<HTMLInputElement>) {
+  async function addMedia(event: ChangeEvent<HTMLInputElement>) {
     const files = Array.from(event.target.files ?? []);
     event.target.value = "";
     setBusy(true);
     let saved = 0;
     let failed = 0;
     for (const file of files) {
-      if (!/^image\/(jpeg|png|webp|gif)$/.test(file.type) || file.size > 20 * 1024 * 1024) {
+      const maxSize = file.type.startsWith("video/") ? VIDEO_MAX_SIZE_BYTES : IMAGE_MAX_SIZE_BYTES;
+      if (!isAlbumMediaType(file.type) || file.size > maxSize) {
         failed++; continue;
       }
       setMessage(`Saving ${file.name}...`);
       try {
-        const extension = file.type.split("/")[1];
-        const base = file.name.replace(/\.[^.]+$/, "").replace(/[^a-zA-Z0-9_.-]/g, "_").slice(0, 120) || "photo";
+        const extension = MEDIA_EXTENSION_BY_TYPE[file.type];
+        const base = file.name.replace(/\.[^.]+$/, "").replace(/[^a-zA-Z0-9_.-]/g, "_").slice(0, 120) || "memory";
         const blob = await upload(`birthday-photos/${crypto.randomUUID()}/${base}.${extension}`, file, {
           access: "private", handleUploadUrl: "/api/photos/upload", multipart: true,
         });
-        setPhotos((current) => [{ id: blob.pathname, name: file.name, url: `/api/photos/file?path=${encodeURIComponent(blob.pathname)}` }, ...current]);
+        setMemories((current) => [{ id: blob.pathname, name: file.name, contentType: file.type, url: `/api/photos/file?path=${encodeURIComponent(blob.pathname)}` }, ...current]);
         saved++;
       } catch { failed++; }
     }
-    setMessage(`${saved} photo${saved === 1 ? "" : "s"} saved online.${failed ? ` ${failed} could not be saved. Check your connection, file type, and 20 MB limit, then try again.` : ""}`);
+    setMessage(`${saved} memor${saved === 1 ? "y" : "ies"} saved online.${failed ? ` ${failed} could not be saved. Check your connection, supported file type, and size limits (20 MB for photos, 100 MB for videos), then try again.` : ""}`);
     setBusy(false);
   }
 
-  async function removePhoto(photo: Photo) {
-    if (!window.confirm(`Delete ${photo.name} from the shared album? This removes it for everyone.`)) return;
+  async function removeMemory(memory: AlbumMemory) {
+    if (!window.confirm(`Delete ${memory.name} from the shared album? This removes it for everyone.`)) return;
     setBusy(true);
     try {
-      await readResponse(await fetch(`/api/photos?path=${encodeURIComponent(photo.id)}`, { method: "DELETE" }));
-      setPhotos((current) => current.filter((item) => item.id !== photo.id));
-      setMessage(`${photo.name} deleted.`);
-    } catch (error) { setMessage(error instanceof Error ? error.message : "Could not delete photo."); }
+      await readResponse(await fetch(`/api/photos?path=${encodeURIComponent(memory.id)}`, { method: "DELETE" }));
+      setMemories((current) => current.filter((item) => item.id !== memory.id));
+      setMessage(`${memory.name} deleted.`);
+    } catch (error) { setMessage(error instanceof Error ? error.message : "Could not delete album memory."); }
     finally { setBusy(false); }
   }
 
@@ -106,7 +108,7 @@ export default function PhotosPage() {
     setBusy(true);
     try {
       await readResponse(await fetch("/api/photos/session", { method: "DELETE" }));
-      setLocked(true); setPhotos([]); setCursor(null); setMessage("");
+      setLocked(true); setMemories([]); setCursor(null); setMessage("");
     } catch { setMessage("Could not lock the album. Please try again."); }
     finally { setBusy(false); }
   }
@@ -116,7 +118,7 @@ export default function PhotosPage() {
       <Link className={styles.back} href="/">← Back to the birthday surprise</Link>
       <header className={styles.header}>
         <p className="small-title">More memories with you</p>
-        <h1>Our little photo album</h1>
+        <h1>Our little memory album</h1>
         <p>A place for your favorite smiles, little adventures, and happy moments.</p>
       </header>
 
@@ -128,35 +130,40 @@ export default function PhotosPage() {
         </form>
       ) : <>
       <div className={styles.actions}>
-        <button onClick={() => refresh()} disabled={busy}>Refresh photos</button>
+        <button onClick={() => refresh()} disabled={busy}>Refresh album</button>
         <button onClick={lockAlbum} disabled={busy}>Lock album</button>
       </div>
-      <section className={styles.upload} aria-label="Upload photos">
-        <label htmlFor="photos">Choose your pictures ♥</label>
-        <input id="photos" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple disabled={busy} onChange={addPhotos} />
+      <section className={styles.upload} aria-label="Add photos and videos">
+        <label htmlFor="photos">Add your photos and videos ♥</label>
+        <input id="photos" type="file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime" multiple disabled={busy} onChange={addMedia} />
+        <p>Photos up to 20 MB; videos up to 100 MB (MP4, WebM, or MOV).</p>
       </section>
       </>}
 
       <p className={styles.status} role="status">{message}</p>
-      {!locked && (photos.length === 0 ? (
+      {!locked && (memories.length === 0 ? (
         <p className={styles.empty}>Your album is waiting for its first memory.</p>
       ) : (
-        <section className={styles.grid} aria-label="Your photos">
-          {photos.map((photo) => (
-            <article className={styles.card} key={photo.id}>
+        <section className={styles.grid} aria-label="Your photos and videos">
+          {memories.map((memory) => (
+            <article className={styles.card} key={memory.id}>
               <div className={styles.preview}>
-                <Image src={photo.url} alt={photo.name} fill unoptimized sizes="(max-width: 600px) 100vw, 33vw" />
+                {memory.contentType.startsWith("video/") ? (
+                  <video src={memory.url} controls preload="metadata" aria-label={memory.name} />
+                ) : (
+                  <Image src={memory.url} alt={memory.name} fill unoptimized sizes="(max-width: 600px) 100vw, 33vw" />
+                )}
               </div>
-              <p className={styles.name}>{photo.name}</p>
+              <p className={styles.name}>{memory.name}</p>
               <div className={styles.actions}>
-                <a href={`${photo.url}&download=1`} download={photo.name} aria-label={`Download ${photo.name}`}>Download ↓</a>
-                <button type="button" disabled={busy} onClick={() => removePhoto(photo)} aria-label={`Remove ${photo.name}`}>Remove</button>
+                <a href={`${memory.url}&download=1`} download={memory.name} aria-label={`Download ${memory.name}`}>Download ↓</a>
+                <button type="button" disabled={busy} onClick={() => removeMemory(memory)} aria-label={`Remove ${memory.name}`}>Remove</button>
               </div>
             </article>
           ))}
         </section>
       ))}
-      {!locked && cursor && <button disabled={busy} onClick={() => refresh(cursor)}>Load more photos</button>}
+      {!locked && cursor && <button disabled={busy} onClick={() => refresh(cursor)}>Load more memories</button>}
     </main>
   );
 }

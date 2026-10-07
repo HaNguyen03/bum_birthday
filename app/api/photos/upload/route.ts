@@ -1,6 +1,7 @@
 import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { albumAccess, albumConfigured } from "@/lib/album-server";
-import { PHOTO_TYPES, validPhotoPath } from "@/lib/album-security";
+import { ALBUM_MEDIA_TYPES, IMAGE_MAX_SIZE_BYTES, VIDEO_MAX_SIZE_BYTES } from "@/lib/album-media";
+import { validAlbumMediaPath } from "@/lib/album-security";
 
 export async function POST(request: Request) {
   if (!albumConfigured()) return Response.json({ error: "The online album is not connected yet." }, { status: 503 });
@@ -15,9 +16,10 @@ export async function POST(request: Request) {
       request, body,
       onBeforeGenerateToken: async (pathname) => {
         if (await albumAccess()) throw new Error("Unauthorized");
-        if (!validPhotoPath(pathname)) throw new Error("Invalid photo path");
+        if (!validAlbumMediaPath(pathname)) throw new Error("Invalid media path");
         return {
-          allowedContentTypes: PHOTO_TYPES, maximumSizeInBytes: 20 * 1024 * 1024,
+          allowedContentTypes: [...ALBUM_MEDIA_TYPES],
+          maximumSizeInBytes: /\.(mp4|webm|mov)$/i.test(pathname) ? VIDEO_MAX_SIZE_BYTES : IMAGE_MAX_SIZE_BYTES,
           addRandomSuffix: false, allowOverwrite: false, validUntil: Date.now() + 10 * 60 * 1000,
         };
       },
